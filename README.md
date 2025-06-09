@@ -89,7 +89,7 @@ cd client && npm start
 
 containers for frontend (nginx), backend (python), and mongodb. uses docker-compose for dev/prod environments with volumes for uploads and mongo data.
 
-see [docs/](docs/) for detailed system documentation.
+see wiki's for detailed system documentation.
 
 ## troubleshooting
 
