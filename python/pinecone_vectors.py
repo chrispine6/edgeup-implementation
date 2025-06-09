@@ -1,7 +1,7 @@
 import os
 import time
 from typing import List, Dict, Any
-from pinecone import Pinecone
+from pinecone import Pinecone  # simplified import
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -13,7 +13,7 @@ if not api_key:
     raise ValueError("PINECONE_API_KEY environment variable is not set")
 
 # Create Pinecone instance using the new API
-pc = Pinecone(api_key=api_key)
+pc = Pinecone(api_key=api_key)  # updated initialization
 
 # Set the index name
 INDEX_NAME = "doc-ai"
