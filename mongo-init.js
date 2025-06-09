@@ -1,12 +1,11 @@
-// MongoDB initialization script for EdgeUp application
+// mongo initialization script for document ai
 db = db.getSiblingDB('edgeup');
 
-// Create collections
 db.createCollection('users');
 db.createCollection('text_chunks');
 db.createCollection('dialogues');
 
-// Create indexes for better performance
+// indexes for better performance
 db.users.createIndex({ "firebase_id": 1 }, { unique: true });
 db.users.createIndex({ "email": 1 });
 
@@ -18,4 +17,4 @@ db.dialogues.createIndex({ "user_id": 1 });
 db.dialogues.createIndex({ "user_id": 1, "timestamp": -1 });
 db.dialogues.createIndex({ "previous_dialogue_id": 1 });
 
-print("EdgeUp database initialized successfully!");
+print("document ai mongo database initialized successfully");
