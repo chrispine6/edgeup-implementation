@@ -1,137 +1,98 @@
-# EdgeUp Implementation
-AI-based document and image processing system with OCR capabilities
+# edgeUp implementation
 
-## System Architecture
+ai document processing with ocr - upload pdfs/images, extract text, chat with your docs.
 
-This system consists of three main components:
+## architecture
 
-1. **React Frontend**: Provides the user interface for uploading documents/images and displaying AI responses
-2. **Node.js Backend**: Handles HTTP requests, file uploads, and communication with the Python service
-3. **Python FastAPI Service**: Processes documents and images using OpenAI models with OCR capabilities
+three components:
+1. **react frontend** - upload ui and chat interface
+2. **python fastapi** - document processing and ai chat  
+3. **mongodb** - user data and conversation storage
 
-## Supported File Types
+## supported files
 
-- **PDF Documents**: Text extraction using PyMuPDF
-- **Images**: OCR text extraction using OpenAI's GPT-4 Vision model
-  - Supported formats: JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP
+- **pdfs** - text extraction with pymupdf
+- **images** - ocr with openai gpt-4 vision (jpg, png, gif, bmp, tiff, webp)
 
-## Setup & Installation
+## setup
 
-### Prerequisites
+### prerequisites
+- node.js 14+
+- python 3.8+
 
-- Node.js (v14+)
-- Python 3.8+
-- npm or yarn
-
-### Installation
-
-1. Install server dependencies:
-   ```
-   cd server
-   npm install
-   ```
-
-2. Install client dependencies:
-   ```
-   cd client
-   npm install
-   ```
-
-3. Install Python dependencies:
-   ```
-   cd python
-   pip install -r requirements.txt
-   ```
-
-## Running the Application
-
-### Option 1: Docker Deployment (Recommended)
-
-The easiest way to run the application is using Docker:
-
+### install deps
 ```bash
-# Quick start with Docker
+# client
+cd client && npm install
+
+# python backend  
+cd python && pip install -r requirements.txt
+```
+
+## running the app
+
+### docker (recommended)
+```bash
+# dev environment
 ./docker-deploy.sh dev
 
-# Or for production with MongoDB
+# production with mongodb
 ./docker-deploy.sh prod
 ```
 
-See [DOCKER_README.md](DOCKER_README.md) for detailed Docker deployment instructions.
-
-### Option 2: Manual Development Setup
-
-Use the included start script:
-
+### manual dev setup
 ```bash
-chmod +x start.sh
 ./start.sh
 ```
 
-This will start both the Python FastAPI server and the React client.
+### separate services
+```bash
+# python backend
+cd python && python api.py
 
-### Option 3: Start Services Separately
+# react frontend
+cd client && npm start
+```
 
-1. Start the Python FastAPI service:
-   ```
-   cd python
-   python api.py
-   ```
+## usage
 
-2. Start the React client:
-   ```
-   cd client
-   npm start
-   ```
+1. go to http://localhost:3000
+2. sign in with google
+3. upload pdfs or images
+4. chat with your documents
+5. ask follow-up questions that reference previous conversation
 
-## Usage
+## api endpoints
 
-1. Open your browser and navigate to http://localhost:3000
-2. Sign in with Google
-3. Upload documents (PDF) or images (JPG, PNG, etc.) using the upload interface
-4. The AI will process your files with OCR for images and text extraction for PDFs
-5. Ask questions about the content in the chat interface
-6. **Follow-up Questions**: After receiving a response, ask follow-up questions that will automatically reference the previous conversation context for more coherent multi-turn conversations
+### python fastapi
+- `GET /health` - health check
+- `POST /process-sequence` - upload and process files
+- `POST /chat-query-json` - chat with documents  
+- `GET /user-files` - list uploaded files
+- `DELETE /delete-file` - remove files
 
-## API Endpoints
+## features
 
-### Backend (Node.js) Endpoints
+### document processing
+- pdf text extraction with pymupdf
+- image ocr with gpt-4 vision
+- text chunking and vector embeddings  
+- storage in pinecone + mongodb
 
-- `POST /api/agent/process`: Process documents with an optional query
-- `POST /api/agent/query`: Process text queries without documents
+### chat system
+- semantic search across documents
+- conversation history and follow-ups
+- source attribution with page numbers
+- document-specific queries
 
-### Python API Endpoints
+## docker setup
 
-- `GET /health`: Check if the Python service is running
-- `POST /process-sequence`: Process documents/images (PDF, JPG, PNG, etc.) with full pipeline
-- `POST /test-image-ocr`: Test OCR functionality on images only
-- `POST /chat-query`: Process chat queries with follow-up support (form-based)
-- `POST /chat-query-json`: Process chat queries with follow-up support (JSON-based)
-- `GET /user-files`: Get list of uploaded files for a user
-- `DELETE /delete-file`: Delete a file and its associated data
+containers for frontend (nginx), backend (python), and mongodb. uses docker-compose for dev/prod environments with volumes for uploads and mongo data.
 
-## Features
+see [docs/](docs/) for detailed system documentation.
 
-### Document & Image Processing
-- **PDF Processing**: Extract text from PDF documents using PyMuPDF
-- **Image OCR**: Extract text from images using OpenAI's GPT-4 Vision model
-- **Multi-format Support**: JPG, JPEG, PNG, GIF, BMP, TIFF, WEBP images
-- **Intelligent Text Extraction**: Preserves formatting and structure from images
-- **Unified Processing Pipeline**: Both PDFs and images go through the same chunking, embedding, and storage process
+## troubleshooting
 
-### Follow-up Questions
-- **Conversation Threading**: Ask follow-up questions that reference previous conversation context
-- **Context Preservation**: System combines previous query, references, and responses for enhanced relevance
-- **Visual Indicators**: Clear UI feedback showing when you're in a follow-up conversation
-- **Conversation History**: All dialogue interactions are stored in MongoDB with proper threading
-- **Enhanced Search**: Follow-up queries benefit from expanded context for better document matching
-
-## Troubleshooting
-
-- **Connection Refused Error**: Make sure the Python FastAPI service is running on port 8000
-- **File Upload Issues**: Check the server logs for any errors during file processing
-- **OpenAI API Errors**: Verify your OpenAI API key is valid and has sufficient credits
-
-## License
-
-ISC
+- check python service running on port 8000
+- verify openai api key is set
+- check server logs for processing errors

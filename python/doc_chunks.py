@@ -3,7 +3,6 @@ from nltk.tokenize import sent_tokenize
 def chunk_pages(pages, max_tokens=500, overlap=50):
     from tiktoken import get_encoding
     tokenizer = get_encoding("cl100k_base")
-
     chunks = []
     for i, page_text in enumerate(pages):
         tokens = tokenizer.encode(page_text)

@@ -1,4 +1,3 @@
-# User model for MongoDB
 from pymongo.collection import Collection
 from typing import Optional
 

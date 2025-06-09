@@ -2,12 +2,9 @@ import PyPDF2
 import os
 
 def extract_text_from_pdf(pdf_path, output_path=None):
-    """
-    Extract text from a PDF file and return a list of page texts.
-    Optionally save the full text to a file.
-    """
+    # extract text from a pdf file and return a list of page texts. optionally save the full text to a file.
     if not os.path.exists(pdf_path):
-        raise FileNotFoundError(f"File {pdf_path} does not exist.")
+        raise FileNotFoundError(f"file {pdf_path} does not exist.")
 
     with open(pdf_path, 'rb') as file:
         pdf_reader = PyPDF2.PdfReader(file)
