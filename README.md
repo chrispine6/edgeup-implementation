@@ -56,7 +56,7 @@ cd client && npm start
 
 ## usage
 
-1. go to http://localhost:3000
+1. go to http://localhost
 2. sign in with google
 3. upload pdfs or images
 4. chat with your documents
